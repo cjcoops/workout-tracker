@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { fetchDays } from "./lib/data";
+import { fetchWorkouts } from "./lib/data";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Home() {
-  const days = await fetchDays();
+  const days = await fetchWorkouts();
   return (
     <main className="p-8">
       <h2>Choose a Workout</h2>
@@ -13,15 +13,13 @@ export default async function Home() {
             <Link href={`/day/${day.id}`}>
               <Card>
                 <CardHeader>
-                  <CardTitle>{day.displayName}</CardTitle>
+                  <CardTitle>{day.name}</CardTitle>
                 </CardHeader>
               </Card>
             </Link>
           </li>
         ))}
       </ul>
-
-      <Link href="/programs">View Programs</Link>
     </main>
   );
 }

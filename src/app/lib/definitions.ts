@@ -11,4 +11,11 @@ export type Day = {
 
 export type Workout = {
   id: string;
+  name: string;
+};
+
+export type Exercise = {
+  id: string;
+  name: string;
+  description: string;
 };

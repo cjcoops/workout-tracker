@@ -1,77 +1,36 @@
 const { db } = require("@vercel/postgres");
-const {
-  programs,
-  days,
-  exercises,
-} = require("../src/app/lib/placeholder-data.js");
+const { workouts, exercises } = require("../src/app/lib/placeholder-data.js");
 
-async function seedPrograms(client) {
+async function seedWorkouts(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    // Create the "programs" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS programs (
+      CREATE TABLE IF NOT EXISTS workouts (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         name VARCHAR(50) NOT NULL
       );
     `;
 
-    console.log(`Created "programs" table`);
+    console.log(`Created "workouts" table`);
 
-    // Insert data into the "programs" table
-    const insertedPrograms = await Promise.all(
-      programs.map(async (user) => {
+    const insertedworkouts = await Promise.all(
+      workouts.map(async (workout) => {
         return client.sql`
-        INSERT INTO programs (id, name)
-        VALUES (${user.id}, ${user.name})
+        INSERT INTO workouts (id, name)
+        VALUES (${workout.id}, ${workout.name})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
     );
 
-    console.log(`Seeded ${insertedPrograms.length} programs`);
+    console.log(`Seeded ${insertedworkouts.length} workouts`);
 
     return {
       createTable,
-      programs: insertedPrograms,
+      programs: insertedworkouts,
     };
   } catch (error) {
-    console.error("Error seeding programs:", error);
-    throw error;
-  }
-}
-
-async function seedDays(client) {
-  try {
-    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS days (
-        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        program_id UUID NOT NULL,
-        name VARCHAR(50) NOT NULL
-      );
-    `;
-
-    console.log(`Created "days" table`);
-
-    const insertedDays = await Promise.all(
-      days.map(async (day) => {
-        return client.sql`
-        INSERT INTO days (id, program_id, name)
-        VALUES (${day.id}, ${day.progam_id} ,${day.name})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-      }),
-    );
-
-    console.log(`Seeded ${insertedDays.length} days`);
-
-    return {
-      createTable,
-      programs: insertedDays,
-    };
-  } catch (error) {
-    console.error("Error seeding days:", error);
+    console.error("Error seeding workouts:", error);
     throw error;
   }
 }
@@ -82,7 +41,7 @@ async function seedExercises(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS exercises (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        day_id UUID NOT NULL,
+        workout_id UUID NOT NULL,
         name VARCHAR(50) NOT NULL,
         description TEXT NOT NULL
       );
@@ -93,8 +52,8 @@ async function seedExercises(client) {
     const insertedExercises = await Promise.all(
       exercises.map(async (exercise) => {
         return client.sql`
-        INSERT INTO exercises (id, day_id, name, description)
-        VALUES (${exercise.id}, ${exercise.day_id} ,${exercise.name}, ${exercise.description})
+        INSERT INTO exercises (id, workout_id, name, description)
+        VALUES (${exercise.id}, ${exercise.workout_id} ,${exercise.name}, ${exercise.description})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -115,8 +74,7 @@ async function seedExercises(client) {
 async function main() {
   const client = await db.connect();
 
-  await seedPrograms(client);
-  await seedDays(client);
+  await seedWorkouts(client);
   await seedExercises(client);
 
   await client.end();
