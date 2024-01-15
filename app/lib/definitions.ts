@@ -19,3 +19,9 @@ export type Exercise = {
   name: string;
   description: string;
 };
+
+export type WorkoutWithExercises = {
+  id: string;
+  name: string;
+  exercises: Exercise[];
+};
