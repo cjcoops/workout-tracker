@@ -7,7 +7,9 @@ async function seedWorkouts(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS workouts (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(50) NOT NULL
+        name VARCHAR(50) NOT NULL,
+        warmup TEXT,
+        cooldown TEXT
       );
     `;
 
@@ -16,8 +18,8 @@ async function seedWorkouts(client) {
     const insertedworkouts = await Promise.all(
       workouts.map(async (workout) => {
         return client.sql`
-        INSERT INTO workouts (id, name)
-        VALUES (${workout.id}, ${workout.name})
+        INSERT INTO workouts (id, name, warmup, cooldown)
+        VALUES (${workout.id}, ${workout.name}, ${workout.warmup}, ${workout.cooldown})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),

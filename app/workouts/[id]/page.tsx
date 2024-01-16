@@ -7,6 +7,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
   const workout = await fetchWorkoutById(id);
   log(workout);
+
+  const warmpupSteps = workout.warmup.trim().split("\n");
+
   return (
     <main>
       <div className="flex flex-col gap-4 p-4">
@@ -14,35 +17,14 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
           <h2 className="mb-2 text-xl font-semibold">Warmup Exercises</h2>
           <div className="grid gap-4">
-            <div className="flex items-center gap-4">
-              <ActivityIcon className="h-6 w-6" />
-              <div className="flex flex-col">
-                <h3 className="font-semibold">Jumping Jacks</h3>
+            {warmpupSteps.map((step) => (
+              <div className="flex items-center gap-4" key={step}>
+                <ActivityIcon className="h-6 w-6" />
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  A full body exercise that increases your heart rate and
-                  prepares your muscles for workout.
+                  {step}
                 </p>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <ActivityIcon className="h-6 w-6" />
-              <div className="flex flex-col">
-                <h3 className="font-semibold">High Knees</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  A cardio-intensive exercise that strengthens your core and
-                  improves your agility.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <ActivityIcon className="h-6 w-6" />
-              <div className="flex flex-col">
-                <h3 className="font-semibold">Arm Circles</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  A simple exercise to warm up your arms and shoulders.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className="mt-4 grid gap-4">

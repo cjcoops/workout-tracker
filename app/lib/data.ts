@@ -23,7 +23,7 @@ export async function fetchWorkouts() {
 export async function fetchWorkoutById(id: string) {
   try {
     const [workout, exercises] = await Promise.all([
-      sql<Workout>`SELECT id, name from workouts WHERE id = ${id}`,
+      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${id}`,
       sql<Exercise>`
           SELECT id, name, description from exercises
           WHERE workout_id = ${id}
@@ -33,6 +33,8 @@ export async function fetchWorkoutById(id: string) {
     return {
       id: workout.rows[0].id,
       name: workout.rows[0].name,
+      warmup: workout.rows[0].warmup,
+      cooldown: workout.rows[0].cooldown,
       exercises: exercises.rows.map((row) => {
         return {
           id: row.id,
