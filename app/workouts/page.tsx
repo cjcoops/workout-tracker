@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { fetchWorkouts } from "@/app/lib/data";
-import { Card, CardHeader, CardTitle } from "@/app/components/ui/card";
+import { fetchWorkouts } from "@/lib/data";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Home() {
   const days = await fetchWorkouts();
