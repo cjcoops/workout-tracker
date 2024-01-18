@@ -29,7 +29,7 @@ async function seedWorkouts(client) {
 
     return {
       createTable,
-      programs: insertedworkouts,
+      workouts: insertedworkouts,
     };
   } catch (error) {
     console.error("Error seeding workouts:", error);
@@ -65,10 +65,55 @@ async function seedExercises(client) {
 
     return {
       createTable,
-      programs: insertedExercises,
+      exercises: insertedExercises,
     };
   } catch (error) {
     console.error("Error seeding exercises:", error);
+    throw error;
+  }
+}
+
+async function seedSessions(client) {
+  try {
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS sessions (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        workout_id UUID NOT NULL
+      );
+    `;
+
+    console.log(`Created "sessions" table`);
+
+    return {
+      createTable,
+    };
+  } catch (error) {
+    console.error("Error seeding sessions:", error);
+    throw error;
+  }
+}
+
+async function seedSessionExercises(client) {
+  try {
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS session_exercises (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        session_id UUID NOT NULL,
+        exercise_id UUID NOT NULL,
+        weight VARCHAR(50) NULL,
+        notes TEXT NULL,
+        reps INT NULL,
+        is_complete BOOLEAN DEFAULT false
+      );
+    `;
+
+    console.log(`Created "session exercises" table`);
+
+    return {
+      createTable,
+    };
+  } catch (error) {
+    console.error("Error seeding session exercises:", error);
     throw error;
   }
 }
@@ -78,6 +123,8 @@ async function main() {
 
   await seedWorkouts(client);
   await seedExercises(client);
+  await seedSessions(client);
+  await seedSessionExercises(client);
 
   await client.end();
 }

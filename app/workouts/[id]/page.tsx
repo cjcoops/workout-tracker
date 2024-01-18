@@ -2,6 +2,7 @@ import { fetchWorkoutById } from "@/lib/data";
 import { log } from "console";
 import { Button } from "@/components/ui/button";
 import Exercise from "@/components/workouts/exercise";
+import { createSession } from "@/lib/actions";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
@@ -9,6 +10,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   log(workout);
 
   const warmpupSteps = workout.warmup.trim().split("\n");
+
+  const createSessionWithWorkoutId = createSession.bind(null, id);
 
   return (
     <main>
@@ -33,7 +36,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           ))}
         </div>
 
-        <Button className="mt-4">Start Workout</Button>
+        <form action={createSessionWithWorkoutId}>
+          <Button className="mt-4" type="submit">
+            Start Workout
+          </Button>
+        </form>
       </div>
     </main>
   );

@@ -10,3 +10,7 @@ export type Exercise = {
   name: string;
   description: string;
 };
+
+export type Session = {
+  id: string;
+};
