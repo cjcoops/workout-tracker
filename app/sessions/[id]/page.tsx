@@ -2,8 +2,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { fetchSessionById } from "@/lib/data";
+import { log } from "console";
 
-export default function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
+  const id = params.id;
+  const data = await fetchSessionById(id);
+
+  log(data);
+
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-gray-100 p-4 dark:bg-gray-900">
       <h1 className="mb-2 text-4xl font-bold">Push Ups</h1>

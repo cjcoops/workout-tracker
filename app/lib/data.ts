@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
-import { Exercise, Workout } from "./definitions";
+import { Exercise, Session, SessionExercise, Workout } from "./definitions";
+import { log } from "console";
 
 // TODO: Use no store from next/cache
 
@@ -20,13 +21,13 @@ export async function fetchWorkouts() {
   }
 }
 
-export async function fetchWorkoutById(id: string) {
+export async function fetchWorkoutById(workoutId: string) {
   try {
     const [workout, exercises] = await Promise.all([
-      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${id}`,
+      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${workoutId}`,
       sql<Exercise>`
           SELECT id, name, description from exercises
-          WHERE workout_id = ${id}
+          WHERE workout_id = ${workoutId}
         `,
     ]);
 
@@ -46,5 +47,47 @@ export async function fetchWorkoutById(id: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch workout.");
+  }
+}
+
+export async function fetchSessionById(sessionId: string) {
+  try {
+    const workoutId = await sql<Session>`
+      SELECT workout_id from sessions
+      WHERE id = ${sessionId}
+    `.then((data) => {
+      log(data);
+      return data.rows[0].workout_id;
+    });
+
+    const [workout, exercises] = await Promise.all([
+      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${workoutId}`,
+      sql<SessionExercise>`
+          SELECT session_exercises.id, reps, weight, notes, is_complete, name, description from session_exercises
+          INNER JOIN exercises ON session_exercises.exercise_id = exercises.id
+          WHERE session_exercises.session_id = ${sessionId}
+        `,
+    ]);
+
+    return {
+      id: workout.rows[0].id,
+      name: workout.rows[0].name,
+      warmup: workout.rows[0].warmup,
+      cooldown: workout.rows[0].cooldown,
+      exercises: exercises.rows.map((row) => {
+        return {
+          id: row.id,
+          name: row.name,
+          description: row.description,
+          reps: row.reps,
+          weight: row.weight,
+          notes: row.notes,
+          isComplete: row.is_complete,
+        };
+      }),
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch session.");
   }
 }
