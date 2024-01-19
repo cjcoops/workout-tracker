@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1705628934284,
+      "tag": "0000_early_eternity",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1705630297472,
+      "tag": "0001_stormy_vision",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1705630869090,
+      "tag": "0002_first_rumiko_fujikawa",
+      "breakpoints": true
+    }
+  ]
+}
