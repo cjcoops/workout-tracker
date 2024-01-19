@@ -2,6 +2,7 @@ import { sql } from "@vercel/postgres";
 import { Exercise, Session, SessionExercise, Workout } from "./definitions";
 import { log } from "console";
 import { drizzle } from "drizzle-orm/vercel-postgres";
+import { WorkoutsTable } from "./schema";
 
 // TODO: Use no store from next/cache
 
@@ -9,15 +10,9 @@ export const db = drizzle(sql);
 
 export async function fetchWorkouts() {
   try {
-    const data = await sql<Workout>`
-        SELECT id, name from workouts
-    `;
-    return data.rows.map((row) => {
-      return {
-        id: row.id,
-        name: row.name,
-      };
-    });
+    // TODO: don't need to return all columns
+    const result = await db.select().from(WorkoutsTable);
+    return result;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch workouts data.");

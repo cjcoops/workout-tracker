@@ -1,5 +1,3 @@
-import { VercelClient, VercelPoolClient, createClient } from "@vercel/postgres";
-
 import { exercises, workouts } from "../app/lib/placeholder-data";
 import {
   Exercise,
