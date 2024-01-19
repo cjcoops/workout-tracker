@@ -1,8 +1,11 @@
 import { sql } from "@vercel/postgres";
 import { Exercise, Session, SessionExercise, Workout } from "./definitions";
 import { log } from "console";
+import { drizzle } from "drizzle-orm/vercel-postgres";
 
 // TODO: Use no store from next/cache
+
+export const db = drizzle(sql);
 
 export async function fetchWorkouts() {
   try {
