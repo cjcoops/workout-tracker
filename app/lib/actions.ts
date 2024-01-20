@@ -46,3 +46,5 @@ export async function createSession(workoutId: number) {
 
   redirect(`/sessions/${sessionId}`);
 }
+
+export async function updateSessionExercise() {}

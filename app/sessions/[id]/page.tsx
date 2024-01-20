@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { id: number } }) {
     <div className="flex flex-col items-center justify-center gap-8 bg-gray-100 p-4 dark:bg-gray-900">
       <h2 className="text-2xl font-bold">{data.name}</h2>
       {data.exercises.map((exercise) => (
-        <div key={exercise.id}>
+        <form key={exercise.id}>
           <h3 className="mb-2 text-xl font-bold">{exercise.name}</h3>
           <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
             {exercise.description}
@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: { id: number } }) {
               <Button className="w-full">Mark as Complete</Button>
             </div>
           </div>
-        </div>
+        </form>
       ))}
     </div>
   );
