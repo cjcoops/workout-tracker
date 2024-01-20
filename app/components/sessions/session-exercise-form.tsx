@@ -14,8 +14,17 @@ export default function SessionExercise(sessionExercise: SessionExerciseView) {
     sessionExercise.id,
   );
 
+  const initialState = {};
+
+  const [state, dispatch] = useFormState(
+    updateSessionExerciseWithId,
+    initialState,
+  );
+
+  // TODO: Add error handling
+
   return (
-    <form key={sessionExercise.id} action={updateSessionExerciseWithId}>
+    <form key={sessionExercise.id} action={dispatch}>
       <h3 className="mb-2 text-xl font-bold">{sessionExercise.name}</h3>
       <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
         {sessionExercise.description}
@@ -29,6 +38,7 @@ export default function SessionExercise(sessionExercise: SessionExerciseView) {
               placeholder="Enter number of reps"
               type="number"
               name="reps"
+              defaultValue={sessionExercise.reps ?? undefined}
             />
           </div>
           <div className="grid gap-1.5">
@@ -36,16 +46,23 @@ export default function SessionExercise(sessionExercise: SessionExerciseView) {
             <Input
               id="weight"
               placeholder="Enter weight"
-              type="number"
               name="weight"
+              defaultValue={sessionExercise.weight ?? undefined}
             />
           </div>
           <div className="grid gap-1.5">
             <Label htmlFor="notes">Notes</Label>
-            <Textarea id="notes" placeholder="Enter notes" name="notes" />
+            <Textarea
+              id="notes"
+              placeholder="Enter notes"
+              name="notes"
+              defaultValue={sessionExercise.notes ?? undefined}
+            />
           </div>
           <Button className="w-full" type="submit">
-            Mark as Complete
+            {sessionExercise.isComplete
+              ? "Complete - Update Results"
+              : "Mark as Complete"}
           </Button>
         </div>
       </div>
