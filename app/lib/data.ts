@@ -1,6 +1,4 @@
 import { sql } from "@vercel/postgres";
-import { Exercise, Session, SessionExercise, Workout } from "./definitions";
-import { log } from "console";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 import {
   ExercisesTable,
