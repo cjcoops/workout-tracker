@@ -1,11 +1,7 @@
 import { exercises, workouts } from "../app/lib/placeholder-data";
-import {
-  Exercise,
-  ExercisesTable,
-  Workout,
-  WorkoutsTable,
-  db,
-} from "@/lib/schema";
+import { ExercisesTable, WorkoutsTable, db } from "@/lib/schema";
+import { Exercise } from "@/lib/definitions";
+import { Workout } from "@/lib/definitions";
 
 async function seedWorkouts() {
   try {

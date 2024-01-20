@@ -1,4 +1,5 @@
-import { Exercise, Workout } from "./schema";
+import { Exercise } from "./definitions";
+import { Workout } from "./definitions";
 
 export const workouts: Workout[] = [
   {

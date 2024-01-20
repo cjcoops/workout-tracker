@@ -1,5 +1,4 @@
 import { sql } from "@vercel/postgres";
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { boolean, integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 
@@ -12,18 +11,12 @@ export const WorkoutsTable = pgTable("workouts", {
   cooldown: text("cooldown").notNull(),
 });
 
-export type Workout = InferSelectModel<typeof WorkoutsTable>;
-export type NewWorkout = InferInsertModel<typeof WorkoutsTable>;
-
 export const ExercisesTable = pgTable("exercises", {
   id: serial("id").primaryKey(),
   workoutId: serial("workoutId").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
 });
-
-export type Exercise = InferSelectModel<typeof ExercisesTable>;
-export type NewExercise = InferInsertModel<typeof ExercisesTable>;
 
 export const SessionsTable = pgTable("sessions", {
   id: serial("id").primaryKey(),

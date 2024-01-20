@@ -47,4 +47,14 @@ export async function createSession(workoutId: number) {
   redirect(`/sessions/${sessionId}`);
 }
 
-export async function updateSessionExercise() {}
+export async function updateSessionExercise(id: number, formData: FormData) {
+  // TODO: Add validation
+  const rawFormData = {
+    reps: formData.get("reps"),
+    weight: formData.get("weight"),
+    notes: formData.get("notes"),
+  };
+  console.log(id, rawFormData);
+
+  revalidatePath("/sessions/2");
+}
