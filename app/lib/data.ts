@@ -2,7 +2,8 @@ import { sql } from "@vercel/postgres";
 import { Exercise, Session, SessionExercise, Workout } from "./definitions";
 import { log } from "console";
 import { drizzle } from "drizzle-orm/vercel-postgres";
-import { WorkoutsTable } from "./schema";
+import { ExercisesTable, WorkoutsTable } from "./schema";
+import { eq } from "drizzle-orm";
 
 // TODO: Use no store from next/cache
 
@@ -19,22 +20,22 @@ export async function fetchWorkouts() {
   }
 }
 
-export async function fetchWorkoutById(workoutId: string) {
+export async function fetchWorkoutById(workoutId: number) {
   try {
     const [workout, exercises] = await Promise.all([
-      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${workoutId}`,
-      sql<Exercise>`
-          SELECT id, name, description from exercises
-          WHERE workout_id = ${workoutId}
-        `,
+      db.select().from(WorkoutsTable).where(eq(WorkoutsTable.id, workoutId)),
+      db
+        .select()
+        .from(ExercisesTable)
+        .where(eq(ExercisesTable.workoutId, workoutId)),
     ]);
 
     return {
-      id: workout.rows[0].id,
-      name: workout.rows[0].name,
-      warmup: workout.rows[0].warmup,
-      cooldown: workout.rows[0].cooldown,
-      exercises: exercises.rows.map((row) => {
+      id: workout[0].id,
+      name: workout[0].name,
+      warmup: workout[0].warmup,
+      cooldown: workout[0].cooldown,
+      exercises: exercises.map((row) => {
         return {
           id: row.id,
           name: row.name,
