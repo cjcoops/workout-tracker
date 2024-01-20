@@ -1,34 +1,43 @@
 "use server";
 
 import { z } from "zod";
-import { db } from "@vercel/postgres";
+import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Session } from "./definitions";
 import { log } from "console";
+import { drizzle } from "drizzle-orm/vercel-postgres";
+import {
+  ExercisesTable,
+  SessionsExercisesTable,
+  SessionsTable,
+} from "./schema";
+import { eq } from "drizzle-orm";
 
-export async function createSession(workoutId: string) {
-  const client = await db.connect();
+export async function createSession(workoutId: number) {
+  const db = drizzle(sql);
 
-  let sessionId = "";
+  let sessionId: number;
 
   try {
-    const data = await client.sql<Session>`
-    INSERT INTO sessions (workout_id)
-    VALUES (${workoutId})
-    RETURNING id
-  `;
+    const insertedSession = await db
+      .insert(SessionsTable)
+      .values({
+        workoutId,
+      })
+      .returning();
 
-    sessionId = data.rows[0].id;
+    sessionId = insertedSession[0].id;
 
-    log("Session ID:", sessionId);
+    const exercises = await db
+      .select()
+      .from(ExercisesTable)
+      .where(eq(ExercisesTable.workoutId, workoutId));
 
-    await client.sql`
-    INSERT INTO session_exercises (session_id, exercise_id)
-    SELECT ${sessionId}, id 
-    FROM exercises 
-    WHERE workout_id = ${workoutId}
-  `;
+    await db
+      .insert(SessionsExercisesTable)
+      .values(
+        exercises.map((exercise) => ({ sessionId, exerciseId: exercise.id })),
+      );
   } catch (error) {
     return {
       message: "Database Error: Failed to Create Session.",

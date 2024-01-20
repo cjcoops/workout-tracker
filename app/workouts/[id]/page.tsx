@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import Exercise from "@/components/workouts/exercise";
 import { createSession } from "@/lib/actions";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: { id: number } }) {
   const id = params.id;
   const workout = await fetchWorkoutById(id);
-  log(workout);
 
   const warmpupSteps = workout.warmup.trim().split("\n");
 

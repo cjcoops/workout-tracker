@@ -2,12 +2,17 @@ import { sql } from "@vercel/postgres";
 import { Exercise, Session, SessionExercise, Workout } from "./definitions";
 import { log } from "console";
 import { drizzle } from "drizzle-orm/vercel-postgres";
-import { ExercisesTable, WorkoutsTable } from "./schema";
+import {
+  ExercisesTable,
+  SessionsExercisesTable,
+  SessionsTable,
+  WorkoutsTable,
+} from "./schema";
 import { eq } from "drizzle-orm";
 
 // TODO: Use no store from next/cache
 
-export const db = drizzle(sql);
+const db = drizzle(sql);
 
 export async function fetchWorkouts() {
   try {
@@ -49,39 +54,42 @@ export async function fetchWorkoutById(workoutId: number) {
   }
 }
 
-export async function fetchSessionById(sessionId: string) {
+export async function fetchSessionById(sessionId: number) {
   try {
-    const workoutId = await sql<Session>`
-      SELECT workout_id from sessions
-      WHERE id = ${sessionId}
-    `.then((data) => {
-      log(data);
-      return data.rows[0].workout_id;
-    });
+    const workoutId = await db
+      .select()
+      .from(SessionsTable)
+      .where(eq(SessionsTable.id, sessionId))
+      .then((data) => {
+        return data[0].workoutId;
+      });
 
     const [workout, exercises] = await Promise.all([
-      sql<Workout>`SELECT id, name, warmup, cooldown from workouts WHERE id = ${workoutId}`,
-      sql<SessionExercise>`
-          SELECT session_exercises.id, reps, weight, notes, is_complete, name, description from session_exercises
-          INNER JOIN exercises ON session_exercises.exercise_id = exercises.id
-          WHERE session_exercises.session_id = ${sessionId}
-        `,
+      db.select().from(WorkoutsTable).where(eq(WorkoutsTable.id, workoutId)),
+      db
+        .select()
+        .from(SessionsExercisesTable)
+        .innerJoin(
+          ExercisesTable,
+          eq(ExercisesTable.id, SessionsExercisesTable.exerciseId),
+        )
+        .where(eq(SessionsExercisesTable.sessionId, sessionId)),
     ]);
 
     return {
-      id: workout.rows[0].id,
-      name: workout.rows[0].name,
-      warmup: workout.rows[0].warmup,
-      cooldown: workout.rows[0].cooldown,
-      exercises: exercises.rows.map((row) => {
+      id: workout[0].id,
+      name: workout[0].name,
+      warmup: workout[0].warmup,
+      cooldown: workout[0].cooldown,
+      exercises: exercises.map((row) => {
         return {
-          id: row.id,
-          name: row.name,
-          description: row.description,
-          reps: row.reps,
-          weight: row.weight,
-          notes: row.notes,
-          isComplete: row.is_complete,
+          id: row.sessions_exercises.id,
+          name: row.exercises.name,
+          description: row.exercises.description,
+          reps: row.sessions_exercises.reps,
+          weight: row.sessions_exercises.weight,
+          notes: row.sessions_exercises.notes,
+          isComplete: row.sessions_exercises.isComplete,
         };
       }),
     };
