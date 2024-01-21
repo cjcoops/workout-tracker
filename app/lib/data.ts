@@ -82,6 +82,7 @@ export async function fetchSessionById(sessionId: number) {
       exercises: exercises.map((row) => {
         return {
           id: row.sessions_exercises.id,
+          sessionId,
           name: row.exercises.name,
           description: row.exercises.description,
           reps: row.sessions_exercises.reps,

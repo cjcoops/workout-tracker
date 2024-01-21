@@ -51,10 +51,11 @@ const schema = z.object({
   reps: z.coerce.number(),
   weight: z.string(),
   notes: z.string(),
+  sessionId: z.coerce.number(),
+  sessionExerciseId: z.coerce.number(),
 });
 
 export async function updateSessionExercise(
-  sessionExerciseId: number,
   prevState: any,
   formData: FormData,
 ) {
@@ -62,6 +63,8 @@ export async function updateSessionExercise(
     reps: formData.get("reps"),
     weight: formData.get("weight"),
     notes: formData.get("notes"),
+    sessionId: formData.get("sessionId"),
+    sessionExerciseId: formData.get("sessionExerciseId"),
   });
 
   if (!validatedFields.success) {
@@ -72,16 +75,17 @@ export async function updateSessionExercise(
     };
   }
 
-  console.log(validatedFields.data);
+  const { reps, weight, notes, sessionId, sessionExerciseId } =
+    validatedFields.data;
 
   try {
     await db
       .update(SessionsExercisesTable)
-      .set({ ...validatedFields.data, isComplete: true })
+      .set({ reps, weight, notes, isComplete: true })
       .where(eq(SessionsExercisesTable.id, sessionExerciseId));
   } catch (error) {
     return { message: "Database Error: Failed to Update Session Exercise." };
   }
 
-  revalidatePath("/sessions/2");
+  revalidatePath(`/sessions/${sessionId}`);
 }

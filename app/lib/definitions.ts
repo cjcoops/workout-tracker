@@ -7,8 +7,5 @@ export type Workout = InferSelectModel<typeof WorkoutsTable>;
 export type Exercise = InferSelectModel<typeof ExercisesTable>;
 export type SessionExercise = InferSelectModel<typeof SessionsExercisesTable>;
 
-export type SessionExerciseView = Omit<
-  SessionExercise,
-  "sessionId" | "exerciseId"
-> &
+export type SessionExerciseView = Omit<SessionExercise, "exerciseId"> &
   Pick<Exercise, "name" | "description">;

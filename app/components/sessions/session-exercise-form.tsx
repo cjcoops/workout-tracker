@@ -16,15 +16,18 @@ export default function SessionExercise(sessionExercise: SessionExerciseView) {
 
   const initialState = {};
 
-  const [state, dispatch] = useFormState(
-    updateSessionExerciseWithId,
-    initialState,
-  );
+  const [state, dispatch] = useFormState(updateSessionExercise, initialState);
 
   // TODO: Add error handling
 
   return (
     <form key={sessionExercise.id} action={dispatch}>
+      <input
+        type="hidden"
+        name="sessionExerciseId"
+        value={sessionExercise.id}
+      />
+      <input type="hidden" name="sessionId" value={sessionExercise.sessionId} />
       <h3 className="mb-2 text-xl font-bold">{sessionExercise.name}</h3>
       <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
         {sessionExercise.description}
