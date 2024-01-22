@@ -1,10 +1,12 @@
 import { ExercisesTable, SessionsExercisesTable } from "./schema";
 import { WorkoutsTable } from "./schema";
 
-import { InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 export type Workout = InferSelectModel<typeof WorkoutsTable>;
+export type NewWorkout = InferInsertModel<typeof WorkoutsTable>;
 export type Exercise = InferSelectModel<typeof ExercisesTable>;
+export type NewExercise = InferInsertModel<typeof ExercisesTable>;
 export type SessionExercise = InferSelectModel<typeof SessionsExercisesTable>;
 
 export type SessionExerciseView = Omit<SessionExercise, "exerciseId"> &
