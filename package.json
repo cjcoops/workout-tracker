@@ -10,7 +10,7 @@
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "seed": "tsx -r dotenv/config ./scripts/seed.ts",
-    "drop": "node -r dotenv/config ./scripts/drop.js",
+    "drop": "tsx -r dotenv/config ./scripts/drop.ts",
     "generate": "drizzle-kit generate:pg",
     "migrate": "tsx -r dotenv/config ./scripts/migrate.ts"
   },

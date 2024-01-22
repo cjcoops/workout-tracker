@@ -1,19 +1,23 @@
-const { db } = require("@vercel/postgres");
+import { sql } from "@vercel/postgres";
+import { drizzle } from "drizzle-orm/vercel-postgres";
+import { sql as drizzleSql } from "drizzle-orm";
 
 async function main() {
-  const client = await db.connect();
+  const db = drizzle(sql);
 
   try {
-    await client.sql`
+    await db.execute(drizzleSql`
+        DROP TABLE sessions_exercises;
+        DROP TABLE sessions;
         DROP TABLE exercises;
         DROP TABLE workouts;
-    `;
+    `);
   } catch (error) {
     console.error("Error dropping tables:", error);
     throw error;
   }
 
-  await client.end();
+  await sql.end();
 }
 
 main().catch((err) => {
