@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 
 export default async function Page() {
   const workouts = await fetchWorkouts();
-
   return (
     <div className="flex h-screen flex-col">
       <header className="flex h-16 items-center border-b px-4 md:px-6">
