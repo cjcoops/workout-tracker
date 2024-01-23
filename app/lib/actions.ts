@@ -180,3 +180,20 @@ export async function createWorkout(prevState: any, formData: FormData) {
   revalidatePath("/workouts");
   redirect("/workouts");
 }
+
+export async function completeSession(sessionId: number) {
+  let workoutId: number;
+  try {
+    const session = await db
+      .update(SessionsTable)
+      .set({ isComplete: true })
+      .where(eq(SessionsTable.id, sessionId))
+      .returning();
+
+    workoutId = session[0].workoutId;
+  } catch (error) {
+    return { message: "Database Error: Failed to Complete Session." };
+  }
+
+  redirect(`/workouts/${workoutId}`);
+}

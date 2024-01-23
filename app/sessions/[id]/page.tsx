@@ -1,5 +1,6 @@
 import { fetchSessionById } from "@/lib/data";
 import SessionExerciseForm from "@/components/sessions/session-exercise-form";
+import { CompleteSession } from "@/components/sessions/buttons";
 
 export default async function Page({ params }: { params: { id: number } }) {
   const id = params.id;
@@ -11,6 +12,7 @@ export default async function Page({ params }: { params: { id: number } }) {
       {session.sessionExercises.map((sessionExercise) => (
         <SessionExerciseForm key={sessionExercise.id} {...sessionExercise} />
       ))}
+      {session.isComplete ? "" : <CompleteSession sessionId={id} />}
     </div>
   );
 }

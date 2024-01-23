@@ -34,6 +34,7 @@ export const exercisesRelations = relations(ExercisesTable, ({ one }) => ({
 export const SessionsTable = pgTable("sessions", {
   id: serial("id").primaryKey(),
   workoutId: integer("workoutId").notNull(),
+  isComplete: boolean("isComplete").default(false),
 });
 
 export const sessionsRelations = relations(SessionsTable, ({ one, many }) => ({
