@@ -9,6 +9,10 @@ export default async function Page({ params }: { params: { id: number } }) {
   const id = params.id;
   const workout = await fetchWorkoutById(id);
 
+  if (!workout) {
+    return <div>Workout not found</div>;
+  }
+
   const warmpupSteps = workout.warmup.trim().split("\n");
 
   const createSessionWithWorkoutId = createSession.bind(null, id);

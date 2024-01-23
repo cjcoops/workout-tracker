@@ -6,11 +6,14 @@ import {
   SessionsTable,
   WorkoutsTable,
 } from "./schema";
+import * as schema from "./schema";
+
 import { eq } from "drizzle-orm";
+import { log } from "console";
 
 // TODO: Use no store from next/cache
 
-const db = drizzle(sql);
+const db = drizzle(sql, { schema });
 
 export async function fetchWorkouts() {
   try {
@@ -25,27 +28,14 @@ export async function fetchWorkouts() {
 
 export async function fetchWorkoutById(workoutId: number) {
   try {
-    const [workout, exercises] = await Promise.all([
-      db.select().from(WorkoutsTable).where(eq(WorkoutsTable.id, workoutId)),
-      db
-        .select()
-        .from(ExercisesTable)
-        .where(eq(ExercisesTable.workoutId, workoutId)),
-    ]);
+    const workout = await db.query.WorkoutsTable.findFirst({
+      with: {
+        exercises: true,
+      },
+      where: eq(WorkoutsTable.id, workoutId),
+    });
 
-    return {
-      id: workout[0].id,
-      name: workout[0].name,
-      warmup: workout[0].warmup,
-      cooldown: workout[0].cooldown,
-      exercises: exercises.map((row) => {
-        return {
-          id: row.id,
-          name: row.name,
-          description: row.description,
-        };
-      }),
-    };
+    return workout;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch workout.");

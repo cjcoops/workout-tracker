@@ -147,7 +147,7 @@ export async function createWorkout(prevState: any, formData: FormData) {
   const exerciseNames = formData.getAll("exerciseName");
   const exerciseDescriptions = formData.getAll("exerciseDescription");
 
-  const exercises: NewExercise[] = [];
+  const exercises: { name: string; description: string }[] = [];
 
   exerciseNames.forEach((name, index) => {
     exercises.push({

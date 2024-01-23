@@ -7,6 +7,10 @@ import { fetchWorkoutById } from "@/lib/data";
 export default async function Page({ params }: { params: { id: number } }) {
   const workout = await fetchWorkoutById(params.id);
 
+  if (!workout) {
+    return <div>Workout not found</div>;
+  }
+
   return (
     <div className="flex flex-col p-4">
       <h1 className="mb-4 text-2xl font-bold">Create/Edit Workout</h1>
