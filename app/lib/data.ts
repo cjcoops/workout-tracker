@@ -34,6 +34,10 @@ export async function fetchWorkoutById(workoutId: number) {
       where: eq(WorkoutsTable.id, workoutId),
     });
 
+    if (!workout) {
+      throw new Error("Workout not found");
+    }
+
     return workout;
   } catch (error) {
     console.error("Database Error:", error);
