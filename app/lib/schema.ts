@@ -48,9 +48,9 @@ export const SessionsExercisesTable = pgTable("sessions_exercises", {
   id: serial("id").primaryKey(),
   sessionId: integer("sessionId").notNull(),
   exerciseId: integer("exerciseId").notNull(),
-  weight: text("weight"),
-  reps: integer("reps"),
-  notes: text("notes"),
+  weight: text("weight").default(""),
+  reps: integer("reps").default(0),
+  notes: text("notes").default(""),
   isComplete: boolean("isComplete").notNull().default(false),
 });
 

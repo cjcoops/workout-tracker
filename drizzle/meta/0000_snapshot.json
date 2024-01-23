@@ -1,5 +1,5 @@
 {
-  "id": "523628c4-3e96-4e8b-9560-ca0592f8e7c7",
+  "id": "4ba56ba7-4f9a-4289-8d70-0baf83699188",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -16,7 +16,7 @@
         },
         "workoutId": {
           "name": "workoutId",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -50,13 +50,13 @@
         },
         "sessionId": {
           "name": "sessionId",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "exerciseId": {
           "name": "exerciseId",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -64,19 +64,22 @@
           "name": "weight",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "''"
         },
         "reps": {
           "name": "reps",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": 0
         },
         "notes": {
           "name": "notes",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "''"
         },
         "isComplete": {
           "name": "isComplete",
@@ -103,7 +106,7 @@
         },
         "workoutId": {
           "name": "workoutId",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }
