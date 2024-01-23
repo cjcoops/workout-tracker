@@ -14,6 +14,7 @@ export const WorkoutsTable = pgTable("workouts", {
 
 export const workoutsRelations = relations(WorkoutsTable, ({ many }) => ({
   exercises: many(ExercisesTable),
+  sessions: many(SessionsTable),
 }));
 
 export const ExercisesTable = pgTable("exercises", {
@@ -35,6 +36,14 @@ export const SessionsTable = pgTable("sessions", {
   workoutId: integer("workoutId").notNull(),
 });
 
+export const sessionsRelations = relations(SessionsTable, ({ one, many }) => ({
+  workout: one(WorkoutsTable, {
+    fields: [SessionsTable.workoutId],
+    references: [WorkoutsTable.id],
+  }),
+  sessionExercises: many(SessionsExercisesTable),
+}));
+
 export const SessionsExercisesTable = pgTable("sessions_exercises", {
   id: serial("id").primaryKey(),
   sessionId: integer("sessionId").notNull(),
@@ -44,3 +53,17 @@ export const SessionsExercisesTable = pgTable("sessions_exercises", {
   notes: text("notes"),
   isComplete: boolean("isComplete").notNull().default(false),
 });
+
+export const sessionExercisesRelations = relations(
+  SessionsExercisesTable,
+  ({ one }) => ({
+    session: one(SessionsTable, {
+      fields: [SessionsExercisesTable.sessionId],
+      references: [SessionsTable.id],
+    }),
+    exercise: one(ExercisesTable, {
+      fields: [SessionsExercisesTable.exerciseId],
+      references: [ExercisesTable.id],
+    }),
+  }),
+);

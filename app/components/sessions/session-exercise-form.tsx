@@ -7,13 +7,13 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { updateSessionExercise } from "@/lib/actions";
 import { useFormState } from "react-dom";
+import { fetchSessionById } from "@/lib/data";
 
-export default function SessionExercise(sessionExercise: SessionExerciseView) {
-  const updateSessionExerciseWithId = updateSessionExercise.bind(
-    null,
-    sessionExercise.id,
-  );
+type SessionExercise = Awaited<
+  ReturnType<typeof fetchSessionById>
+>["sessionExercises"][number];
 
+export default function SessionExercise(sessionExercise: SessionExercise) {
   const initialState = {};
 
   const [state, dispatch] = useFormState(updateSessionExercise, initialState);
@@ -28,9 +28,11 @@ export default function SessionExercise(sessionExercise: SessionExerciseView) {
         value={sessionExercise.id}
       />
       <input type="hidden" name="sessionId" value={sessionExercise.sessionId} />
-      <h3 className="mb-2 text-xl font-bold">{sessionExercise.name}</h3>
+      <h3 className="mb-2 text-xl font-bold">
+        {sessionExercise.exercise.name}
+      </h3>
       <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
-        {sessionExercise.description}
+        {sessionExercise.exercise.description}
       </p>
       <div className="mx-auto w-full max-w-md">
         <div className="flex flex-col space-y-4">
