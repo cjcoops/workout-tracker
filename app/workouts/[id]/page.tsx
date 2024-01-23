@@ -8,7 +8,8 @@ export default async function Page({ params }: { params: { id: number } }) {
   const id = params.id;
   const workout = await fetchWorkoutById(id);
 
-  const warmpupSteps = workout.warmup.trim().split("\n");
+  const warmupSteps = workout.warmup.trim().split("\n");
+  const cooldownSteps = workout.cooldown.trim().split("\n");
 
   const createSessionWithWorkoutId = createSession.bind(null, id);
 
@@ -27,11 +28,10 @@ export default async function Page({ params }: { params: { id: number } }) {
           </Link>
         </div>
         <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-          <h2 className="mb-2 text-xl font-semibold">Warmup Exercises</h2>
+          <h2 className="mb-2 text-xl font-semibold">Warmup</h2>
           <div className="grid gap-4">
-            {warmpupSteps.map((step) => (
+            {warmupSteps.map((step) => (
               <div className="flex items-center gap-4" key={step}>
-                <ActivityIcon className="h-6 w-6" />
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {step}
                 </p>
@@ -39,10 +39,25 @@ export default async function Page({ params }: { params: { id: number } }) {
             ))}
           </div>
         </div>
-        <div className="mt-4 grid gap-4">
-          {workout.exercises.map((exercise) => (
-            <Exercise key={exercise.id} exercise={exercise} />
-          ))}
+        <div className="p-4">
+          <h2 className="mb-2 text-xl font-semibold">Exercises</h2>
+          <div className="grid gap-4">
+            {workout.exercises.map((exercise) => (
+              <Exercise key={exercise.id} exercise={exercise} />
+            ))}
+          </div>
+        </div>
+        <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
+          <h2 className="mb-2 text-xl font-semibold">Cooldown</h2>
+          <div className="grid gap-4">
+            {cooldownSteps.map((step) => (
+              <div className="flex items-center gap-4" key={step}>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {step}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <form action={createSessionWithWorkoutId}>

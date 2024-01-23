@@ -46,7 +46,9 @@ export default async function Page() {
             ))}
           </div>
           <div className="flex justify-end">
-            <Button variant="outline">Create Workout</Button>
+            <Link href="/workouts/new">
+              <Button variant="outline">Create Workout</Button>
+            </Link>
           </div>
         </div>
       </main>
