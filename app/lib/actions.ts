@@ -13,7 +13,6 @@ import {
   WorkoutsTable,
 } from "./schema";
 import { eq } from "drizzle-orm";
-import { NewExercise, NewWorkout } from "./definitions";
 
 const db = drizzle(sql);
 
@@ -105,9 +104,6 @@ const FormSchema = z.object({
   }),
   date: z.string(),
 });
-
-const CreateInvoice = FormSchema.omit({ id: true, date: true });
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export type State = {
   errors?: {
