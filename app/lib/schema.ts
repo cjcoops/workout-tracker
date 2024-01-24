@@ -1,6 +1,13 @@
 import { sql } from "@vercel/postgres";
 import { relations } from "drizzle-orm";
-import { boolean, integer, pgTable, serial, text } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 
 export const db = drizzle(sql);
@@ -10,6 +17,8 @@ export const WorkoutsTable = pgTable("workouts", {
   name: text("name").notNull(),
   warmup: text("warmup").notNull(),
   cooldown: text("cooldown").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 export const workoutsRelations = relations(WorkoutsTable, ({ many }) => ({
@@ -22,6 +31,8 @@ export const ExercisesTable = pgTable("exercises", {
   workoutId: integer("workoutId").notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 export const exercisesRelations = relations(ExercisesTable, ({ one }) => ({
@@ -35,6 +46,8 @@ export const SessionsTable = pgTable("sessions", {
   id: serial("id").primaryKey(),
   workoutId: integer("workoutId").notNull(),
   isComplete: boolean("isComplete").default(false),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 export const sessionsRelations = relations(SessionsTable, ({ one, many }) => ({
@@ -53,6 +66,8 @@ export const SessionsExercisesTable = pgTable("sessions_exercises", {
   reps: integer("reps").default(0),
   notes: text("notes").default(""),
   isComplete: boolean("isComplete").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 
 export const sessionExercisesRelations = relations(

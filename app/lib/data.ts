@@ -54,6 +54,7 @@ export async function fetchSessionById(sessionId: number) {
           with: {
             exercise: true,
           },
+          orderBy: (sessionExercises, { asc }) => [asc(sessionExercises.id)],
         },
         workout: true,
       },

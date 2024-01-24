@@ -1,1 +1,0 @@
-ALTER TABLE "sessions" ADD COLUMN "isComplete" boolean DEFAULT false;

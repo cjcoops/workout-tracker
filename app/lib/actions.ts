@@ -82,7 +82,7 @@ export async function updateSessionExercise(
   try {
     await db
       .update(SessionsExercisesTable)
-      .set({ reps, weight, notes, isComplete: true })
+      .set({ reps, weight, notes, isComplete: true, updatedAt: new Date() })
       .where(eq(SessionsExercisesTable.id, sessionExerciseId));
   } catch (error) {
     return { message: "Database Error: Failed to Update Session Exercise." };
@@ -186,7 +186,7 @@ export async function completeSession(sessionId: number) {
   try {
     const session = await db
       .update(SessionsTable)
-      .set({ isComplete: true })
+      .set({ isComplete: true, updatedAt: new Date() })
       .where(eq(SessionsTable.id, sessionId))
       .returning();
 

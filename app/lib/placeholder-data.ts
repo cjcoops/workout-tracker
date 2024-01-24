@@ -1,7 +1,7 @@
 import { Exercise } from "./definitions";
 import { Workout } from "./definitions";
 
-export const workouts: Workout[] = [
+export const workouts: Omit<Workout, "createdAt" | "updatedAt">[] = [
   {
     id: 1,
     name: "Vol 44 - Day 1",
@@ -43,7 +43,7 @@ export const workouts: Workout[] = [
   },
 ];
 
-export const exercises: Exercise[] = [
+export const exercises: Omit<Exercise, "createdAt" | "updatedAt">[] = [
   {
     id: 1,
     workoutId: workouts[0].id,
