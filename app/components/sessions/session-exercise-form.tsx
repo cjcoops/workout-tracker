@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { updateSessionExercise } from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { fetchSessionById } from "@/lib/data";
+// import { ExerciseHistory } from "./exercise-history";
 
 type SessionExercise = Awaited<
   ReturnType<typeof fetchSessionById>
@@ -21,19 +22,13 @@ export default function SessionExercise(sessionExercise: SessionExercise) {
   // TODO: Add error handling
 
   return (
-    <form key={sessionExercise.id} action={dispatch}>
+    <form action={dispatch}>
       <input
         type="hidden"
         name="sessionExerciseId"
         value={sessionExercise.id}
       />
       <input type="hidden" name="sessionId" value={sessionExercise.sessionId} />
-      <h3 className="mb-2 text-xl font-bold">
-        {sessionExercise.exercise.name}
-      </h3>
-      <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
-        {sessionExercise.exercise.description}
-      </p>
       <div className="mx-auto w-full max-w-md">
         <div className="flex flex-col space-y-4">
           <div className="grid gap-1.5">

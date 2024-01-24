@@ -1,15 +1,11 @@
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
-import {
-  ExercisesTable,
-  SessionsExercisesTable,
-  SessionsTable,
-  WorkoutsTable,
-} from "./schema";
+import { ExercisesTable, SessionsTable, WorkoutsTable } from "./schema";
 import * as schema from "./schema";
 
 import { eq } from "drizzle-orm";
 import { log } from "console";
+import { SessionExercise } from "./definitions";
 
 // TODO: Use no store from next/cache
 
@@ -68,5 +64,44 @@ export async function fetchSessionById(sessionId: number) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch session.");
+  }
+}
+
+function stringifySessionExerciseResults(sessionExercise: SessionExercise) {
+  const results: string[] = [];
+
+  if (sessionExercise.reps) {
+    results.push(`${sessionExercise.reps} reps`);
+  }
+
+  if (sessionExercise.weight) {
+    results.push(`@ ${sessionExercise.weight}`);
+  }
+
+  if (sessionExercise.notes) {
+    results.push(`${sessionExercise.notes}`);
+  }
+
+  return results.join(" | ");
+}
+
+export async function fetchExerciseHistory(exerciseId: number) {
+  try {
+    const result = await db.query.SessionsExercisesTable.findMany({
+      where: (sessionExercises, { eq, and }) =>
+        and(
+          eq(sessionExercises.exerciseId, exerciseId),
+          eq(sessionExercises.isComplete, true),
+          // TODO: Don't return this session exercise, only return session exercises completed before this one, order
+        ),
+      limit: 3,
+    });
+
+    return result.map((sessionExercise) =>
+      stringifySessionExerciseResults(sessionExercise),
+    );
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch exercise history.");
   }
 }
