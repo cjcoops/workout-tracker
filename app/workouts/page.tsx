@@ -6,11 +6,10 @@ import { log } from "console";
 export default async function Page() {
   const workouts = await fetchWorkouts();
   const incompleteSessions = await fetchIncompleteSessions();
-  log(incompleteSessions);
   return (
     <div className="flex h-screen flex-col">
       <header className="flex h-16 items-center border-b px-4 md:px-6">
-        <Link className="flex items-center gap-2" href="#">
+        <Link className="flex items-center gap-2" href="/">
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-semibold">Workout Tracker</span>
         </Link>
@@ -27,7 +26,7 @@ export default async function Page() {
             {incompleteSessions.map((session) => (
               <div
                 key={session.id}
-                className="group relative rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800"
+                className="group relative rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-colors hover:bg-gray-100  dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800"
               >
                 <Link
                   className="absolute inset-0"
