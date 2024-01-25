@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { fetchWorkouts } from "@/lib/data";
+import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
 import { Button } from "@/components/ui/button";
+import { log } from "console";
 
 export default async function Page() {
   const workouts = await fetchWorkouts();
+  const incompleteSessions = await fetchIncompleteSessions();
+  log(incompleteSessions);
   return (
     <div className="flex h-screen flex-col">
       <header className="flex h-16 items-center border-b px-4 md:px-6">
@@ -11,17 +14,34 @@ export default async function Page() {
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-semibold">Workout Tracker</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
-            href="#"
-          >
-            Previous Sessions
-          </Link>
-        </nav>
       </header>
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="grid gap-6">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-2xl font-bold">Active Sessions</h2>
+            <p className="text-gray-500 dark:text-gray-400">
+              Continue an active session
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {incompleteSessions.map((session) => (
+              <div
+                key={session.id}
+                className="group relative rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800"
+              >
+                <Link
+                  className="absolute inset-0"
+                  href={`sessions/${session.id}`}
+                />
+                <h3 className="text-lg font-semibold">
+                  {session.workout.name}
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400">
+                  {`Started on ${session.workout.createdAt?.toDateString()}`}
+                </p>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl font-bold">Workouts</h2>
             <p className="text-gray-500 dark:text-gray-400">

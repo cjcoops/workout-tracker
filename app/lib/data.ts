@@ -85,6 +85,22 @@ export async function fetchSessionById(sessionId: number) {
   }
 }
 
+export async function fetchIncompleteSessions() {
+  try {
+    const result = await db.query.SessionsTable.findMany({
+      where: eq(SessionsTable.isComplete, false),
+      with: {
+        workout: true,
+      },
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch incomplete sessions.");
+  }
+}
+
 function stringifySessionExerciseResults(sessionExercise: SessionExercise) {
   const results: string[] = [];
 
