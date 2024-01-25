@@ -40,7 +40,9 @@ export default async function Page() {
                 />
                 <h3 className="text-lg font-semibold">{workout.name}</h3>
                 <p className="text-gray-500 dark:text-gray-400">
-                  Last completed on 12/12/2020
+                  {workout.lastCompleted
+                    ? `Last completed on ${workout.lastCompleted.toDateString()}`
+                    : null}
                 </p>
               </div>
             ))}

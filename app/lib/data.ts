@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import { ExercisesTable, SessionsTable, WorkoutsTable } from "./schema";
 import * as schema from "./schema";
 
-import { eq } from "drizzle-orm";
+import { and, eq, max } from "drizzle-orm";
 import { log } from "console";
 import { SessionExercise } from "./definitions";
 
@@ -13,7 +13,25 @@ const db = drizzle(sql, { schema });
 
 export async function fetchWorkouts() {
   try {
-    const result = await db.select().from(WorkoutsTable);
+    const subquery = db
+      .select({
+        lastCompleted: max(SessionsTable.updatedAt).as("lastCompleted"),
+        workoutId: SessionsTable.workoutId,
+      })
+      .from(SessionsTable)
+      .groupBy(SessionsTable.workoutId)
+      .where(and(eq(SessionsTable.isComplete, true)))
+      .as("subquery");
+
+    const result = await db
+      .select({
+        id: WorkoutsTable.id,
+        name: WorkoutsTable.name,
+        lastCompleted: subquery.lastCompleted,
+      })
+      .from(WorkoutsTable)
+      .leftJoin(subquery, eq(WorkoutsTable.id, subquery.workoutId));
+
     return result;
   } catch (error) {
     console.error("Database Error:", error);
