@@ -18,14 +18,6 @@ export default async function Page({ params }: { params: { id: number } }) {
       <div className="flex flex-col gap-4 p-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">{workout.name}</h1>
-          <Link
-            className="flex items-center gap-2"
-            href={`/workouts/${id}/edit`}
-          >
-            <Button className="rounded-full bg-gray-500 p-2 text-white">
-              <FileEditIcon className="h-6 w-6" />
-            </Button>
-          </Link>
         </div>
         <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
           <h2 className="mb-2 text-xl font-semibold">Warmup</h2>
