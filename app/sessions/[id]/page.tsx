@@ -15,10 +15,10 @@ export default async function Page({ params }: { params: { id: number } }) {
           <h3 className="mb-2 text-xl font-bold">
             {sessionExercise.exercise.name}
           </h3>
-          <p className="mb-10 text-lg text-gray-600 dark:text-gray-400">
+          <p className="mb-4 text-lg text-gray-600 dark:text-gray-400">
             {sessionExercise.exercise.description}
           </p>
-          <ExerciseHistory exerciseId={sessionExercise.exercise.id} />
+          <ExerciseHistory sessionExerciseId={sessionExercise.id} />
           <SessionExerciseForm key={sessionExercise.id} {...sessionExercise} />
         </div>
       ))}

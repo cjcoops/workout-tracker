@@ -85,21 +85,36 @@ function stringifySessionExerciseResults(sessionExercise: SessionExercise) {
   return results.join(" | ");
 }
 
-export async function fetchExerciseHistory(exerciseId: number) {
+export async function fetchExerciseHistory(sessionExerciseId: number) {
   try {
+    const targetSessionExercise =
+      await db.query.SessionsExercisesTable.findFirst({
+        where: (sessionExercises, { eq }) =>
+          eq(sessionExercises.id, sessionExerciseId),
+      });
+
+    if (!targetSessionExercise) {
+      throw new Error("Session exercise not found");
+    }
+
     const result = await db.query.SessionsExercisesTable.findMany({
-      where: (sessionExercises, { eq, and }) =>
+      where: (sessionExercises, { eq, and, not }) =>
         and(
-          eq(sessionExercises.exerciseId, exerciseId),
+          eq(sessionExercises.exerciseId, targetSessionExercise.exerciseId),
           eq(sessionExercises.isComplete, true),
-          // TODO: Don't return this session exercise, only return session exercises completed before this one, order
+          not(eq(sessionExercises.id, sessionExerciseId)),
         ),
+      orderBy: (sessionExercises, { desc }) => [
+        desc(sessionExercises.updatedAt),
+      ],
       limit: 3,
     });
 
-    return result.map((sessionExercise) =>
-      stringifySessionExerciseResults(sessionExercise),
-    );
+    return result
+      .map((sessionExercise) =>
+        stringifySessionExerciseResults(sessionExercise),
+      )
+      .toReversed();
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch exercise history.");
