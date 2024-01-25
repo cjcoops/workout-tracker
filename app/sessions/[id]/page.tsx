@@ -1,4 +1,4 @@
-import { fetchExerciseHistory, fetchSessionById } from "@/lib/data";
+import { fetchSessionById } from "@/lib/data";
 import SessionExerciseForm from "@/components/sessions/session-exercise-form";
 import { CompleteSession } from "@/components/sessions/buttons";
 import { ExerciseHistory } from "@/components/sessions/exercise-history";
@@ -8,7 +8,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   const session = await fetchSessionById(id);
 
   return (
-    <div className="flex flex-col gap-8 bg-gray-100 p-4 dark:bg-gray-900">
+    <div className="flex flex-col gap-8">
       <h2 className="text-2xl font-bold">{session.workout.name}</h2>
       {session.sessionExercises.map((sessionExercise) => (
         <div key={sessionExercise.id}>
