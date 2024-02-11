@@ -14,7 +14,7 @@ export default async function Suggestions() {
     <>
       <div className="flex flex-col gap-2">
         <p className="text-gray-500 dark:text-gray-400">
-          Continue an incomplete session
+          Continue an incomplete workout
         </p>
       </div>
       {incompleteSessions.length ? (
@@ -36,9 +36,7 @@ export default async function Suggestions() {
         </div>
       ) : null}
       <div className="flex flex-col gap-2">
-        <p className="text-gray-500 dark:text-gray-400">
-          Choose a new workout to start a session
-        </p>
+        <p className="text-gray-500 dark:text-gray-400">Begin a workout</p>
       </div>
       <div className="flex flex-col gap-4">
         {workouts.map((workout) => (

@@ -19,13 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="flex h-screen flex-col">
-          <header className="flex h-16 shrink-0 items-center border-b px-4 md:px-6">
-            <Link className="flex items-center gap-2" href="/">
-              <MountainIcon className="h-6 w-6" />
-              <span className="text-lg font-semibold">Workout Tracker</span>
-            </Link>
-          </header>
-          <main className="flex-1 bg-gray-100 p-4 dark:bg-gray-900 md:p-6">
+          <main className=" bg-gray-100 p-4 dark:bg-gray-900 md:p-6">
             {children}
           </main>
         </div>

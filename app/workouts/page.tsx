@@ -10,34 +10,13 @@ import {
 
 export default async function Page() {
   const workouts = await fetchWorkouts();
-  const incompleteSessions = await fetchIncompleteSessions();
   return (
     <div className="grid gap-6">
+      <h2 className="text-2xl font-bold">Workouts</h2>
+      <Link href="/workouts/new">
+        <Button variant="outline">Create New Workout</Button>
+      </Link>
       <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-bold">Active Sessions</h2>
-        <p className="text-gray-500 dark:text-gray-400">
-          Continue an active session
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-4">
-        {incompleteSessions.map((session) => (
-          <Link key={session.id} href={`/sessions/${session.id}`}>
-            <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">
-                  {session.workout.name}
-                </CardTitle>
-                <CardDescription>
-                  {`Started on ${session.workout.createdAt?.toDateString()}`}
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
-      </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="text-2xl font-bold">Workouts</h2>
         <p className="text-gray-500 dark:text-gray-400">
           Choose a workout to start your session
         </p>
@@ -57,11 +36,6 @@ export default async function Page() {
             </Card>
           </Link>
         ))}
-      </div>
-      <div className="flex justify-end">
-        <Link href="/workouts/new">
-          <Button variant="outline">Create Workout</Button>
-        </Link>
       </div>
     </div>
   );
