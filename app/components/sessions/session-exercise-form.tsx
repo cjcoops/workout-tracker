@@ -60,9 +60,7 @@ export default function SessionExercise(sessionExercise: SessionExercise) {
             />
           </div>
           <Button className="w-full" type="submit">
-            {sessionExercise.isComplete
-              ? "Complete - Update Results"
-              : "Mark as Complete"}
+            {sessionExercise.isComplete ? "Update Results" : "Mark as Complete"}
           </Button>
         </div>
       </div>
