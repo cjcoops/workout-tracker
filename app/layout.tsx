@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
+import { NavMenu } from "./components/home/nav-menu";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,10 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} dark`}>
         <div className="flex h-screen flex-col">
-          <header className="flex h-16 shrink-0 items-center border-b  px-4 dark:bg-gray-700 md:px-6">
+          <header className="flex h-16 shrink-0 items-center justify-between  border-b px-4 dark:bg-gray-700 md:px-6">
             <Link className="flex items-center gap-2" href="/">
               <span className="text-lg font-semibold">Workout Tracker</span>
             </Link>
+            <NavMenu />
           </header>
           <main className="flex-1 bg-gray-100 p-4 dark:bg-gray-700 md:p-6">
             {children}
