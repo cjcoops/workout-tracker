@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 
 import { NavMenu } from "./components/home/nav-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,15 @@ export default function RootLayout({
       <body className={`${inter.className} dark`}>
         <div className="flex h-screen flex-col">
           <header className="flex h-16 shrink-0 items-center justify-between  border-b px-4 dark:bg-gray-700 md:px-6">
-            <Link className="flex items-center gap-2" href="/">
-              <span className="text-lg font-semibold">Workout Tracker</span>
-            </Link>
+            <div className="flex gap-2">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CC</AvatarFallback>
+              </Avatar>
+              <Link className="flex items-center gap-2" href="/">
+                <h1 className="text-lg font-semibold">Workout Tracker</h1>
+              </Link>
+            </div>
             <NavMenu />
           </header>
           <main className="flex-1 bg-gray-100 p-4 dark:bg-gray-700 md:p-6">
