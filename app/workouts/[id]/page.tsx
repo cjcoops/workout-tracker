@@ -17,9 +17,14 @@ export default async function Page({ params }: { params: { id: number } }) {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{workout.name}</h1>
       </div>
+      <form action={createSessionWithWorkoutId}>
+        <Button className="w-full" type="submit">
+          Start Workout
+        </Button>
+      </form>
       <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-        <h2 className="mb-2 text-xl font-semibold">Warmup</h2>
         <div className="grid gap-4">
+          <h2 className=" text-xl font-semibold">🔥 Warmup</h2>
           {warmupSteps.map((step) => (
             <div className="flex items-center gap-4" key={step}>
               <p className="text-sm text-gray-500 dark:text-gray-400">{step}</p>
@@ -27,17 +32,17 @@ export default async function Page({ params }: { params: { id: number } }) {
           ))}
         </div>
       </div>
-      <div className="p-4">
-        <h2 className="mb-2 text-xl font-semibold">Exercises</h2>
+      <div className="rounded-md p-4 dark:bg-gray-800">
         <div className="grid gap-4">
+          <h2 className=" text-xl font-semibold">🏃 Exercises</h2>
           {workout.exercises.map((exercise) => (
             <Exercise key={exercise.id} exercise={exercise} />
           ))}
         </div>
       </div>
       <div className="rounded-md bg-gray-100 p-4 dark:bg-gray-800">
-        <h2 className="mb-2 text-xl font-semibold">Cooldown</h2>
         <div className="grid gap-4">
+          <h2 className=" text-xl font-semibold">❄️ Cooldown</h2>
           {cooldownSteps.map((step) => (
             <div className="flex items-center gap-4" key={step}>
               <p className="text-sm text-gray-500 dark:text-gray-400">{step}</p>
@@ -47,7 +52,7 @@ export default async function Page({ params }: { params: { id: number } }) {
       </div>
 
       <form action={createSessionWithWorkoutId}>
-        <Button className="mt-4" type="submit">
+        <Button className=" w-full" type="submit">
           Start Workout
         </Button>
       </form>
