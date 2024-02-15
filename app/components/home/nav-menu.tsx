@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +15,7 @@ export function NavMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="ghost">
           <Menu />
         </Button>
       </DropdownMenuTrigger>
