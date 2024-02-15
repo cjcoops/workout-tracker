@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import WorkoutCard from "@/components/workouts/workout-card";
 
 export default async function Page() {
   const workouts = await fetchWorkouts();
@@ -14,7 +15,7 @@ export default async function Page() {
     <div className="grid gap-6">
       <h2 className="text-2xl font-bold">Workouts</h2>
       <Link href="/workouts/new">
-        <Button variant="outline">Create New Workout</Button>
+        <Button className="w-full">Create New Workout</Button>
       </Link>
       <div className="flex flex-col gap-2">
         <p className="text-gray-500 dark:text-gray-400">
@@ -23,18 +24,7 @@ export default async function Page() {
       </div>
       <div className="flex flex-col gap-4">
         {workouts.map((workout) => (
-          <Link key={workout.id} href={`/workouts/${workout.id}`}>
-            <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">{workout.name}</CardTitle>
-                {workout.lastCompleted ? (
-                  <CardDescription>
-                    {`Last completed on ${workout.lastCompleted.toDateString()}`}
-                  </CardDescription>
-                ) : null}
-              </CardHeader>
-            </Card>
-          </Link>
+          <WorkoutCard key={workout.id} workout={workout} />
         ))}
       </div>
     </div>

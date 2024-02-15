@@ -6,6 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
+import WorkoutCard from "../workouts/workout-card";
+import SessionCard from "../sessions/session-card";
 
 export default async function Suggestions() {
   const workouts = await fetchWorkouts();
@@ -20,18 +22,7 @@ export default async function Suggestions() {
       {incompleteSessions.length ? (
         <div className="flex flex-col gap-4">
           {incompleteSessions.map((session) => (
-            <Link key={session.id} href={`/sessions/${session.id}`}>
-              <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
-                <CardHeader className="p-4">
-                  <CardTitle className="text-lg">
-                    {session.workout.name}
-                  </CardTitle>
-                  <CardDescription>
-                    {`Started on ${session.workout.createdAt?.toDateString()}`}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <SessionCard key={session.id} session={session} />
           ))}
         </div>
       ) : null}
@@ -40,18 +31,7 @@ export default async function Suggestions() {
       </div>
       <div className="flex flex-col gap-4">
         {workouts.map((workout) => (
-          <Link key={workout.id} href={`/workouts/${workout.id}`}>
-            <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
-              <CardHeader className="p-4">
-                <CardTitle className="text-lg">{workout.name}</CardTitle>
-                {workout.lastCompleted ? (
-                  <CardDescription>
-                    {`Last completed on ${workout.lastCompleted.toDateString()}`}
-                  </CardDescription>
-                ) : null}
-              </CardHeader>
-            </Card>
-          </Link>
+          <WorkoutCard key={workout.id} workout={workout} />
         ))}
       </div>
     </>

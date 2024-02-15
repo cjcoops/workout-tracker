@@ -85,6 +85,22 @@ export async function fetchSessionById(sessionId: number) {
   }
 }
 
+export async function fetchAllSessions() {
+  try {
+    const result = await db.query.SessionsTable.findMany({
+      with: {
+        workout: true,
+      },
+      orderBy: (sessions, { desc }) => [desc(sessions.updatedAt)],
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch all sessions.");
+  }
+}
+
 export async function fetchIncompleteSessions() {
   try {
     const result = await db.query.SessionsTable.findMany({
