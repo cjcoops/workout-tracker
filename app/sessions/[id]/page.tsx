@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { id: number } }) {
               {sessionExercise.exercise.name}
             </h3>
             {sessionExercise.isComplete ? (
-              <BadgeCheck className="text-green-200" />
+              <BadgeCheck className="text-primary" />
             ) : null}
           </div>
           <p className="mb-4 text-lg text-gray-600 dark:text-gray-400">

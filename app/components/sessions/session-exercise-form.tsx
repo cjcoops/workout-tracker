@@ -1,10 +1,10 @@
 "use client";
 
 import { SessionExerciseView } from "@/lib/definitions";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { updateSessionExercise } from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { fetchSessionById } from "@/lib/data";
@@ -59,7 +59,7 @@ export default function SessionExercise(sessionExercise: SessionExercise) {
               defaultValue={sessionExercise.notes ?? undefined}
             />
           </div>
-          <Button className="w-full" type="submit">
+          <Button className="w-full" type="submit" variant="secondary">
             {sessionExercise.isComplete ? "Update Results" : "Mark as Complete"}
           </Button>
         </div>

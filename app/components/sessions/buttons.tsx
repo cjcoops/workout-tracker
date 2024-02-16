@@ -1,5 +1,5 @@
 import { completeSession } from "@/lib/actions";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export function CompleteSession({ sessionId }: { sessionId: number }) {
   const completeSessionWithId = completeSession.bind(null, sessionId);

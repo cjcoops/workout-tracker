@@ -15,7 +15,7 @@ export function NavMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" size="icon">
           <Menu />
         </Button>
       </DropdownMenuTrigger>
