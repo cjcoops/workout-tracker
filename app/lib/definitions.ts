@@ -11,3 +11,10 @@ export type SessionExercise = InferSelectModel<typeof SessionsExercisesTable>;
 
 export type SessionExerciseView = Omit<SessionExercise, "exerciseId"> &
   Pick<Exercise, "name" | "description">;
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+};

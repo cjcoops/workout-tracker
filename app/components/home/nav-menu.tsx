@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Menu } from "lucide-react";
+import LogoutButton from "./logout-button";
 
 export function NavMenu() {
   return (
@@ -31,7 +32,9 @@ export function NavMenu() {
         </Link>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem>
+          <LogoutButton />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -13,6 +13,8 @@ import {
   WorkoutsTable,
 } from "./schema";
 import { eq } from "drizzle-orm";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
 const db = drizzle(sql);
 
@@ -196,4 +198,23 @@ export async function completeSession(sessionId: number) {
   }
 
   redirect(`/workouts/${workoutId}`);
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
 }
