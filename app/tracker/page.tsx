@@ -1,7 +1,7 @@
+import Suggestions from "@/tracker/home/suggestions";
 import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
 
 import { Suspense } from "react";
-import Suggestions from "./tracker/home/suggestions";
 
 export default async function Page() {
   const workouts = await fetchWorkouts();

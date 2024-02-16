@@ -13,7 +13,7 @@ import {
   WorkoutsTable,
 } from "./schema";
 import { eq } from "drizzle-orm";
-import { signIn } from "@/auth";
+import { signIn } from "../../auth";
 import { AuthError } from "next-auth";
 
 const db = drizzle(sql);
