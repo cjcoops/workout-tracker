@@ -13,7 +13,7 @@ export default function WorkoutCard({
   workout: { id: number; name: string; lastCompleted: Date | null };
 }) {
   return (
-    <Link href={`/workouts/${workout.id}`}>
+    <Link href={`/tracker/workouts/${workout.id}`}>
       <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
         <CardHeader className="flex flex-row items-center p-4">
           <div className="flex-1">

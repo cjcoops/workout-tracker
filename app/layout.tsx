@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
-import { NavMenu } from "./tracker/home/nav-menu";
+import { NavMenu } from "./home/nav-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
 
 const inter = Inter({ subsets: ["latin"] });

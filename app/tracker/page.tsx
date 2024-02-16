@@ -1,4 +1,4 @@
-import Suggestions from "@/tracker/home/suggestions";
+import Suggestions from "@/home/suggestions";
 import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
 
 import { Suspense } from "react";

@@ -6,8 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
-import WorkoutCard from "../../components/workouts/workout-card";
-import SessionCard from "../../components/sessions/session-card";
+import WorkoutCard from "../components/workouts/workout-card";
+import SessionCard from "../components/sessions/session-card";
 
 export default async function Suggestions() {
   const workouts = await fetchWorkouts();

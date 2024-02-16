@@ -1,4 +1,4 @@
-import { NavMenu } from "@/tracker/home/nav-menu";
+import { NavMenu } from "@/home/nav-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 

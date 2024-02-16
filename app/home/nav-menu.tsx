@@ -21,13 +21,13 @@ export function NavMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <Link href="/workouts/new">
+        <Link href="/tracker/workouts/new">
           <DropdownMenuItem>Create Workout</DropdownMenuItem>
         </Link>
-        <Link href="/workouts">
+        <Link href="/tracker/workouts">
           <DropdownMenuItem>All Workouts</DropdownMenuItem>
         </Link>
-        <Link href="/sessions">
+        <Link href="/tracker/sessions">
           <DropdownMenuItem>Workout History</DropdownMenuItem>
         </Link>
 

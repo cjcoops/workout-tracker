@@ -21,7 +21,7 @@ interface SessionCardProps {
 
 const SessionCard: React.FC<SessionCardProps> = ({ session }) => {
   return (
-    <Link key={session.id} href={`/sessions/${session.id}`}>
+    <Link key={session.id} href={`/tracker/sessions/${session.id}`}>
       <Card className="transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800">
         <CardHeader className="flex flex-row items-center p-4">
           <div className="flex-1">

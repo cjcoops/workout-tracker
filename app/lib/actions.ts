@@ -47,7 +47,7 @@ export async function createSession(workoutId: number) {
     };
   }
 
-  redirect(`/sessions/${sessionId}`);
+  redirect(`/tracker/sessions/${sessionId}`);
 }
 
 const schema = z.object({
@@ -90,7 +90,7 @@ export async function updateSessionExercise(
     return { message: "Database Error: Failed to Update Session Exercise." };
   }
 
-  revalidatePath(`/sessions/${sessionId}`);
+  revalidatePath(`/tracker/sessions/${sessionId}`);
 }
 
 const FormSchema = z.object({
@@ -179,8 +179,8 @@ export async function createWorkout(prevState: any, formData: FormData) {
     return { message: "Database Error: Failed to Create Workout" };
   }
 
-  revalidatePath("/workouts");
-  redirect("/workouts");
+  revalidatePath("/tracker/workouts");
+  redirect("/tracker/workouts");
 }
 
 export async function completeSession(sessionId: number) {
@@ -197,7 +197,7 @@ export async function completeSession(sessionId: number) {
     return { message: "Database Error: Failed to Complete Session." };
   }
 
-  redirect(`/workouts/${workoutId}`);
+  redirect(`/tracker/workouts/${workoutId}`);
 }
 
 export async function authenticate(

@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <div className="grid gap-6">
       <h2 className="text-2xl font-bold">Workouts</h2>
-      <Link href="/workouts/new">
+      <Link href="/tracker/workouts/new">
         <Button className="w-full">Create New Workout</Button>
       </Link>
       <div className="flex flex-col gap-2">

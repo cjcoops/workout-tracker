@@ -1,4 +1,4 @@
-import { signOut } from "../../../auth";
+import { signOut } from "../../auth";
 
 export default function LogoutButton() {
   return (
@@ -9,7 +9,7 @@ export default function LogoutButton() {
       }}
     >
       <button>
-        <div>Sign Out</div>
+        <div>Log Out</div>
       </button>
     </form>
   );
