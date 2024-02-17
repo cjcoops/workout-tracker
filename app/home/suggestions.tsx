@@ -1,10 +1,3 @@
-import Link from "next/link";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { fetchIncompleteSessions, fetchWorkouts } from "@/lib/data";
 import WorkoutCard from "../components/workouts/workout-card";
 import SessionCard from "../components/sessions/session-card";

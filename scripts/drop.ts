@@ -11,6 +11,7 @@ async function main() {
         DROP TABLE sessions;
         DROP TABLE exercises;
         DROP TABLE workouts;
+        DROP TABLE users;
     `);
   } catch (error) {
     console.error("Error dropping tables:", error);

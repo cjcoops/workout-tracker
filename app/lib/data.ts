@@ -170,3 +170,5 @@ export async function fetchExerciseHistory(sessionExerciseId: number) {
     throw new Error("Failed to fetch exercise history.");
   }
 }
+
+async function getCurrentUser() {}

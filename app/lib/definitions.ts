@@ -12,6 +12,7 @@ export type SessionExercise = InferSelectModel<typeof SessionsExercisesTable>;
 export type SessionExerciseView = Omit<SessionExercise, "exerciseId"> &
   Pick<Exercise, "name" | "description">;
 
+// Define User type explicitly rather than inferring due to https://github.com/drizzle-team/drizzle-orm/issues/663
 export type User = {
   id: string;
   name: string;
